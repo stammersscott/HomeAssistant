@@ -1,0 +1,8 @@
+{
+  "domain": "netthings",
+  "name": "NetThings Energy Monitor",
+  "documentation": "https://www.home-assistant.io/integrations/netthings",
+  "requirements": ["python-socketio[client]"],
+  "dependencies": [],
+  "codeowners": ["@stammersscott"]
+}
