@@ -1,0 +1,8 @@
+{
+  "domain": "prontorfx",
+  "name": "Pronto RFX Interface",
+  "documentation": "https://www.home-assistant.io/integrations/prontorfx",
+  "requirements": [],
+  "dependencies": [],
+  "codeowners": ["@stammersscott"]
+}
