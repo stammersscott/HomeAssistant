@@ -14,6 +14,7 @@
 var ha_host = CF.widget("HA_HOST_IP", "PARAMETERS", "HA_MOD").label;
 var ha_port = CF.widget("HA_PORT", "PARAMETERS", "HA_MOD").label;
 var ha_token = CF.widget("HA_TOKEN", "PARAMETERS", "HA_MOD").label;
+var ha_name = CF.widget("HA_NAME", "PARAMETERS", "HA_MOD").label;
 
 /* call a specific domain/service through HA API for a given entity, e.g. "light", "turn_on", "light.spotlights" */
 function haService (domain, service, entityId) {
