@@ -1,5 +1,5 @@
 /*!
-@title com.ssnetnt.HALightwaveControl
+@title com.ssnetnt.HAControl
 @author Scott Stammers
 @version 0.9
 */
@@ -14,12 +14,6 @@
 var ha_host = CF.widget("HA_HOST_IP", "PARAMETERS", "HA_MOD").label;
 var ha_port = CF.widget("HA_PORT", "PARAMETERS", "HA_MOD").label;
 var ha_token = CF.widget("HA_TOKEN", "PARAMETERS", "HA_MOD").label;
-
-// preload images
-const IMG_ON = CF.widget("IMG_ON", "RESOURCES").getImage();
-const IMG_OFF = CF.widget("IMG_OFF", "RESOURCES").getImage();
-
-var pageChanged = 0;
 
 /* call a specific domain/service through HA API for a given entity, e.g. "light", "turn_on", "light.spotlights" */
 function haService (domain, service, entityId) {
@@ -61,27 +55,6 @@ function haLightSetBrightness(entityId, pct) {
 						+ '}');
 	}
 }
-/*
-var currentBrightness;
-function haLightChangeBrightness(entityId, delta_pct) {
-    if (currentBrightness === undefined) {
-        currentBrightness = Number(System.getGlobal('activelight_bri')) || 50;
-    }
-    newbri = currentBrightness + Number(delta_pct);
-
-    if (newbri  >= 0 && newbri <= 100) {
-        request = new com.philips.HttpLibrary.HttpRequest();
-        request.open("POST", "http://" + ha_host + ":" + ha_port + "/api/services/light/turn_on", true);
-        request.setRequestHeader("Authorization", "Bearer " + ha_token);
-        request.setRequestHeader("Content-Type", "application/json");
-        request.setRequestHeader("Connection", "Close");
-        request.send('{"entity_id": "' +  entityId + '",'
-                        + '"brightness_pct":' + '"' + newbri + '"'
-                        + '}');
-        currentBrightness = newbri;
-    }
-}
-*/
 
 function haLightBrightnessStep(entityId, delta_pct) {
     request = new com.philips.HttpLibrary.HttpRequest();
@@ -158,108 +131,6 @@ function haGetBrightness(entityId) {
 };
 
 /*
----------------------------------------------------------------------------
-    UI Helper functions
----------------------------------------------------------------------------
-*/
-
-var activelight;
-
-/*
-    Tapping the label makes a light 'activelight' (dim using rotary controller)
-    in case it is turned on. Lights that are turned off are ignored.
-    The label color reflects the 'activelight' state.
-    Tapping the label again, clears the 'activelight' state as does turning
-    the light off.
-*/
-function lightLabelHelper(label) {
-    thisLight = (label.tag).replace(/_label$/, '');
-
-    if (CF.widget(thisLight).label == "on") {
-        if (activelight) {
-            CF.widget(activelight + "_label").setColor(0xFFFFFF, 0);
-            if (activelight == thisLight) {
-                activelight = null;
-            } else {
-                haGetBrightness(thisLight);
-                activelight = thisLight;
-                CF.widget(label.tag).setColor(0x0000FF, 0);
-            }
-        } else {
-            haGetBrightness(thisLight);
-            activelight = thisLight;
-            CF.widget(label.tag).setColor(0x0000FF, 0);
-        }
-    }
-}
-
-/*
-    Changes the button image according to the light's state.
-    If light was the 'activelight', clears that association when turning off.
-*/
-
-var lightStateChanged = {};
-function lightButtonHelper(light) {
-    if (light.label == "off") {
-        light.setImage(IMG_ON);
-        light.label = "on";
-
-        if (activelight) {
-            CF.widget(activelight + "_label").setColor(0xFFFFFF, 0);
-        }
-        activelight = light.tag;
-        CF.widget(activelight + "_label").setColor(0x0000FF, 0);
-    } else {
-        light.setImage(IMG_OFF);
-        light.label = "off";
-        if (activelight == light.tag) {
-            activelight = null;
-            CF.widget(light.tag + "_label").setColor(0xFFFFFF, 0);
-        }
-    }
-    haService("light", "toggle", light.tag);
-    lightStateChanged[light.tag] = true;
-}
-
-/*
-    Set up the Rotary Controller for brightness adjustment
-*/
-function setupRotary() {
-    CF.activity().onRotary = function(clicks) {
-        if (activelight && CF.widget(activelight).label == "on") {
-           // haLightChangeBrightness(activelight, 5 * clicks); // pre HA 0.107.x
-
-           // this requires Home-Assistent Core >v0.107
-           haLightBrightnessStep(activelight, 5 * clicks);
-        }
-    }
-}
-
-/*
-    Update light states for an array of lights
-*/
-function update(lights) {
-    for (i in lights) {
-        if (lightStateChanged['light.' + lights[i]]) {
-            lightStateChanged['light.' + lights[i]] = false;
-            continue;
-        }
-        getState('light.' + lights[i]);
-    }
-    CF.activity().scheduleAfter(5000, updateLoop, lights);
-}
-
-// we need to separate the "loop" function as update() is called
-// by the page script and is most likely executed before the scheduled one
-function updateLoop(lights) {
-    if (pageChanged) {
-        CF.page().onExit = function(){pageChanged++; };
-        pageChanged--;
-        return;
-    };
-    update(lights);
-}
-
 // we need to have an exit condition for the scheduleAfter() function;
 // beware of onEntry as that's run after the page script;
 // this needs to be a counter to avoid setting multiple timers with accidental double-taps
@@ -272,3 +143,4 @@ function updateLoop(lights) {
                         }
                     };
 }());
+*/
