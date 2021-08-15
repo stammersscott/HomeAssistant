@@ -1,7 +1,7 @@
 /*!
 @author Scott Stammers
 @title com.ssnetnt.HABatteryStatus
-@version 0.9
+@version 0.95
 */
 
 // access parameters
@@ -37,7 +37,7 @@ function haSetStateAttribute(entityId, state) {
     request.setRequestHeader("Authorization", "Bearer " + ha_token);
     request.setRequestHeader("Content-Type", "application/json");
     request.setRequestHeader("Connection", "Close");
-    request.send('{"state": "' + state + '", "attributes": {"unit_of_measurement": "%", "last_update": "'  + getDate() + '", "icon": "mdi:remote", "friendly_name": "' + ha_name + '", "model": "' + sysModel + '", "serial": "' +  String(sysSerial) + '"}}');
+    request.send('{"state": "' + state + '", "attributes": {"device_class": "battery", "state_class": "measurement", "unit_of_measurement": "%", "last_update": "'  + getDate() + '", "icon": "mdi:remote", "friendly_name": "' + ha_name + '", "model": "' + sysModel + '", "serial": "' +  String(sysSerial) + '"}}');
 }
 
 function updateHA() {
